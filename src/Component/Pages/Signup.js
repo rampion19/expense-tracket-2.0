@@ -1,10 +1,13 @@
 import React, { useRef, useState } from "react";
 import "./SignUp.css";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const inputEmailRef = useRef();
   const inputPasswordRef = useRef();
   const inputConfirmPasswordRef = useRef();
+  const navigate = useNavigate();
+
   const [login, setLogin] = useState(true);
 
   const submitHandler = async (event) => {
@@ -51,6 +54,7 @@ const Signup = () => {
         } else {
           alert("Login Successful");
         }
+        navigate("/home");
       } else {
         const data = await res.json;
         throw data.error;
