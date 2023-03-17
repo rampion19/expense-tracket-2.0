@@ -56,7 +56,7 @@ const Signup = () => {
         }
         navigate("/home");
       } else {
-        const data = await res.json;
+        const data = await res.json();
         throw data.error;
       }
     } catch (error) {
