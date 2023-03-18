@@ -1,19 +1,21 @@
 .mainNav {
-    position: sticky;
-    width: 100%;
-    border-bottom: 5px solid gray;
-    padding-bottom: 10px;
-  }
-  
-  .mainNav nav {
-    box-sizing: border-box;
-    width: 70%;
-    text-align: left;
-    display: inline-block;
-  }
-  
-  .mainNav li {
-    list-style: none;
-    display: inline-block;
-    margin: 0 30px 0 30px;
-  }
+  display: flex;
+  justify-content: center;
+  background-color: black;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  flex-wrap: nowrap;
+}
+.mainNav ul {
+  justify-content: space-evenly;
+}
+
+.mainNav li {
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  padding-right: 50px;
+}
+.mainNav a {
+  text-decoration: none;
+}

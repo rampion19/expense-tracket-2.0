@@ -9,6 +9,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const [login, setLogin] = useState(true);
+  
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -51,22 +52,28 @@ const Signup = () => {
         if (!login) {
           inputConfirmPasswordRef.current.value = "";
           alert("SignUp Successful");
+          navigate("/login");
         } else {
           alert("Login Successful");
+          navigate("/home");
         }
-        navigate("/home");
+        
       } else {
         const data = await res.json();
         throw data.error;
       }
     } catch (error) {
-      console.log(error.message);
+      alert(error.message);
     }
   };
 
   const accountHandler = () => {
     setLogin((prev) => !prev);
   };
+
+  const forgotPasswordHandler = () => {
+    navigate ('/forgetPassword')
+  }
   return (
     <div className="wrapper">
       <form onSubmit={submitHandler} className="form">
@@ -87,7 +94,7 @@ const Signup = () => {
             />{" "}
           </>
         )}
-
+        {login && <button onClick={forgotPasswordHandler} href="#">Forgot Password</button>}
         <button type="submit">{login ? "Login" : "Sign Up"}</button>
         <div className="signup-login" onClick={accountHandler}>
           {login ? "Click here to Sign Up" : "Click here to Login"}

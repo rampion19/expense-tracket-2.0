@@ -5,6 +5,7 @@ import Home from './Component/Pages/Home';
 import Header from './Component/Header/Header';
 import { Route, Routes } from "react-router-dom"
 import UpdateProfile from './Component/Pages/UpdateProfile';
+import ForgetPassword from './Component/Pages/ForgetPassword';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/login" element={<Signup />} />
         <Route path="/home" element={<Home />} />
         <Route path="/update" element={<UpdateProfile />} />
+        <Route path="/ForgetPassword" element={<ForgetPassword />} />
       </Routes>
     </Fragment>
   );
