@@ -44,9 +44,13 @@ const Signup = () => {
         },
       });
       if (res.ok) {
-        const data = await res.json();
-        localStorage.setItem("idToken", JSON.stringify(data));
         setLogin(true);
+        const data = await res.json();
+        const useremailid = email;
+        const replaceEmailid = useremailid.replace('@','').replace(".","");
+        localStorage.setItem("email", replaceEmailid);
+        localStorage.setItem("idToken", JSON.stringify(data));
+        
         inputEmailRef.current.value = "";
         inputPasswordRef.current.value = "";
         if (!login) {

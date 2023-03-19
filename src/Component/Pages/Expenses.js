@@ -1,47 +1,95 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Expenses.css";
+import ExpenseItem from "../ExpenseItem";
 
 const Expenses = () => {
-    const [expenseAmount, setExpenseAmount] = useState(0);
-    const [expenseDesciption, setExpenseDesciption] = useState('');
-    const [expenseCatagory, setExpenseCatagory] = useState('');
+    const inputAmountRef = useRef();
+    const inputDescRef = useRef();
+    const inputCategoryRef = useRef();
+    const dummy_expenses = [];
+    const [expenses, setExpense] = useState(dummy_expenses)
 
-    const [expenses, setExpense] = useState([])
+    const fetchExpense = async () => {
+        try {
+            const res = await fetch(`https://expense-tracker-364f5-default-rtdb.firebaseio.com/Expenses.json`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                }
+            );
+            const data = await res.json();
+            console.log(data);
 
-    const addExpenseHandler = (event) => {
+            if (res.ok) {
+                const newData = [];
+                for (let key in data) {
+                    newData.push({
+                        id: key,
+                        ...data[key]
+                    });
+                }
+                setExpense(newData)
+            } else {
+                throw data.error;
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
+
+    useEffect(() => {
+        fetchExpense();
+    }, [])
+
+    const addExpenseHandler = async (event) => {
         event.preventDefault();
-        setExpense((prev) => {
-            return [...prev, {
-                eAmount: expenseAmount,
-                eDescription: expenseDesciption,
-                eCatagory: expenseCatagory
-            }]
-        })
+
+        const obj = {
+            amount: inputAmountRef.current.value,
+            description: inputDescRef.current.value,
+            category: inputCategoryRef.current.value,
+        };
+        try {
+            const res = await fetch(`https://expense-tracker-364f5-default-rtdb.firebaseio.com/Expenses.json`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(obj),
+                }
+            )
+            const data = await res.json();
+            if (res.ok) {
+                alert("expenses added successfully")
+                inputAmountRef.current.value = "";
+                inputDescRef.current.value = "";
+                inputCategoryRef.current.value = "";
+                await fetchExpense();
+            } else {
+                throw data.error;
+            }
+        } catch (error) {
+            console.log(error.message)
+        }
     };
     return (
         <div>
             <div>
                 <form onSubmit={addExpenseHandler} className="form-expenses">
                     <label htmlFor="amount">Amount</label>
-                    <input
-                        value={expenseAmount}
-                        type="number"
-                        id="amount"
-                        onChange={(e) => setExpenseAmount(e.target.value)} />
-
+                    <input ref={inputAmountRef} type="number" id="amount" />
                     <label htmlFor="desc">Description</label>
                     <textarea
                         type="text"
                         id="desc"
                         rows="3"
-                        value={expenseDesciption}
-                        onChange={(e) => setExpenseDesciption(e.target.value)}
+                        ref={inputDescRef}
                     ></textarea>
                     <label htmlFor="category">Choose a car:</label>
-                    <select
-                        value={expenseCatagory}
-                        id="category"
-                        onChange={(e) => setExpenseCatagory(e.target.value)}>
+                    <select ref={inputCategoryRef} id="category">
                         <option value="Food">Food</option>
                         <option value="Shopping">Shopping</option>
                         <option value="Rent">Rent</option>
@@ -50,25 +98,11 @@ const Expenses = () => {
                     <button type="submit">Add Expense</button>
                 </form>
             </div>
-            <div>All Expenses</div>
-            <table className="expense-table">
-                {/* <thead>
-                    <tr>
-                        <th>Amount</th>
-                        <th>Description</th>
-                        <th>Category</th>
-                    </tr>
-                </thead> */}
-                <tbody>
-                    {expenses.map((expense, index) => (
-                        <tr key={index}>
-                            <td>{expense.eAmount}</td>
-                            <td>{expense.eDescription}</td>
-                            <td>{expense.eCatagory}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <div className="expenses-list">
+                {expenses.map((expense) => (
+                    <ExpenseItem key={expense.id} item={expense} />
+                ))}
+            </div>
         </div>
     );
 };
