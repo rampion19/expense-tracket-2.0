@@ -6,6 +6,7 @@ import Header from './Component/Header/Header';
 import { Route, Routes } from "react-router-dom"
 import UpdateProfile from './Component/Pages/UpdateProfile';
 import ForgetPassword from './Component/Pages/ForgetPassword';
+import Expenses from './Component/Pages/Expenses';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/login" element={<Signup />} />
+        <Route path="/Expenses" element ={<Expenses />} />
         <Route path="/home" element={<Home />} />
         <Route path="/update" element={<UpdateProfile />} />
         <Route path="/ForgetPassword" element={<ForgetPassword />} />

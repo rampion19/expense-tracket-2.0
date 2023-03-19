@@ -6,15 +6,15 @@ const Header = () => {
   const navigate = useNavigate();
   const [userLogIn, setUserLogIn] = useState(false)
 
-  useEffect(()=> {
-    if(localStorage.getItem('idToken')=== null){
+  useEffect(() => {
+    if (localStorage.getItem('idToken') === null) {
       setUserLogIn(false);
-    }else{
+    } else {
       setUserLogIn(true)
     }
   }, []);
-  const logoutHandler = async () => {
 
+  const logoutHandler = async () => {
     await localStorage.removeItem('idToken');
     navigate('/login')
     alert("logout Successful")
