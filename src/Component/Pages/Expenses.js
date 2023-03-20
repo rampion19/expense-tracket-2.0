@@ -156,7 +156,7 @@ const Expenses = () => {
   }
 
   fetchExpenses()
-   }, [dispatch , addExpenseHandler,deleteExpenseHandler,editExpenseHandler]);
+   }, [dispatch , addExpenseHandler]);
 
 
 
