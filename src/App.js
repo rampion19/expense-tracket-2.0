@@ -7,21 +7,31 @@ import { Route, Routes } from "react-router-dom"
 import UpdateProfile from './Component/Pages/UpdateProfile';
 import ForgetPassword from './Component/Pages/ForgetPassword';
 import Expenses from './Component/Pages/Expenses';
+import Premium from './Component/Premium';
+import { useSelector } from 'react-redux';
 
 function App() {
 
-
+  const themeMode = useSelector((state) => state.theme.theme);
   return (
     <Fragment>
-      <Header />
-      <Routes>
+      <Header   />
+      <div className={themeMode === 'dark' ? 'dark' : ''}>
+      <Premium />
+       <Routes>
+        <Route path="/home" element={<Home/>} />
+        <Route path="/expenses" element={<Expenses/>} />
+
         <Route path="/login" element={<Signup />} />
-        <Route path="/Expenses" element ={<Expenses />} />
-        <Route path="/home" element={<Home />} />
         <Route path="/update" element={<UpdateProfile />} />
-        <Route path="/ForgetPassword" element={<ForgetPassword />} />
-      </Routes>
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
+
+
+
+      </Routes> 
+      </div>
     </Fragment>
+
   );
 }
 

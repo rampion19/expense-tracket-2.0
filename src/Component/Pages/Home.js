@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-
 import "./Home.css";
+
 const Home = () => {
 
     const verifyEmail = async (event) => {
@@ -22,7 +22,6 @@ const Home = () => {
             if (res.ok) {
                 alert("Verification mail is sent, please check your mail")
             }
-
             const data = await res.json();
             console.log(data);
         }
